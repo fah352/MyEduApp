@@ -1,0 +1,54 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        buildToolsVersion = "34.0.0" // Or a recent version like "33.0.0"
+        minSdkVersion = 21
+        compileSdkVersion = 34 // Or a recent version like 33
+        targetSdkVersion = 34 // Or a recent version like 33
+        kotlinVersion = "1.8.0" // Or a recent stable Kotlin version
+        # If you are using RN 0.70 or higher, you might need to adjust these versions.
+        # Check React Native documentation for exact recommended versions.
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.1.0") // Or a recent Gradle plugin version
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven {
+            // All of React Native (JS, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Maven repository for Firebase Android SDK
+            url 'https://maven.google.com'
+        }
+        google()
+        maven { url 'https://www.jitpack.io' } // For react-native-webview
+    }
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
+                defaultConfig {
+                    minSdkVersion rootProject.ext.minSdkVersion
+                    targetSdkVersion rootProject.ext.targetSdkVersion
+                }
+            }
+        }
+    }
+}

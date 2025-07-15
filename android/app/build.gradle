@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.facebook.react'
+apply plugin: 'com.google.gms.google-services' // Apply Google Services plugin for Firebase
+
+android {
+    namespace "com.myeduapp" // Your app's package name
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.myeduapp" // Your app's package name
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            // For release builds, you'd configure signing here
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // Debug builds typically don't require signing
+            debuggable true
+        }
+    }
+
+    packagingOptions {
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+    }
+}
+
+dependencies {
+    // Import all the React Native dependencies from node_modules
+    implementation project(':react-native-webview') // For react-native-webview
+    implementation project(':react-native-firebase_app')
+    implementation project(':react-native-firebase_auth')
+    implementation project(':react-native-firebase_firestore')
+    // Add other Firebase modules if you used them, e.g.:
+    // implementation project(':react-native-firebase_storage')
+    // implementation project(':react-native-firebase_functions')
+
+    // Firebase SDKs
+    implementation platform('com.google.firebase:firebase-bom:32.7.0') // Use a recent BOM version
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    // Add other Firebase SDKs if you used them, e.g.:
+    // implementation 'com.google.firebase:firebase-storage'
+    // implementation 'com.google.firebase:firebase-functions'
+
+    // React Native core dependencies
+    implementation "com.facebook.react:react-native"
+    implementation "com.facebook.react:hermes-engine" // If using Hermes
+}

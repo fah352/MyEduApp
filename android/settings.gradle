@@ -1,0 +1,32 @@
+// android/settings.gradle
+
+rootProject.name = 'MyEduApp' // Your project name
+
+// Include your app module
+include ':app'
+
+// Include React Native and its dependencies
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+
+// Include specific React Native Firebase modules
+include ':react-native-firebase_app'
+project(':react-native-firebase_app').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-firebase/app/android')
+
+include ':react-native-firebase_auth'
+project(':react-native-firebase_auth').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-firebase/auth/android')
+
+include ':react-native-firebase_firestore'
+project(':react-native-firebase_firestore').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-firebase/firestore/android')
+
+// Include react-native-webview
+include ':react-native-webview'
+project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
+
+// Add other Firebase modules here if you used them in App.js
+// For example, if you used Storage:
+// include ':react-native-firebase_storage'
+// project(':react-native-firebase_storage').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-firebase/storage/android')
+
+// For example, if you used Functions:
+// include ':react-native-firebase_functions'
+// project(':react-native-firebase_functions').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-firebase/functions/android')
