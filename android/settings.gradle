@@ -5,10 +5,10 @@ rootProject.name = 'MyEduApp' // Your project name
 // Include your app module
 include ':app'
 
-// Include React Native and its dependencies
+// ADDED: Include React Native and its dependencies
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 
-// Include specific React Native Firebase modules
+// ADDED: Include specific React Native Firebase modules
 include ':react-native-firebase_app'
 project(':react-native-firebase_app').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-firebase/app/android')
 
@@ -18,7 +18,7 @@ project(':react-native-firebase_auth').projectDir = new File(rootProject.project
 include ':react-native-firebase_firestore'
 project(':react-native-firebase_firestore').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-firebase/firestore/android')
 
-// Include react-native-webview
+// ADDED: Include react-native-webview
 include ':react-native-webview'
 project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
 

@@ -1,9 +1,11 @@
+// android/app/build.gradle
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.facebook.react'
-apply plugin: 'com.google.gms.google-services' // Apply Google Services plugin for Firebase
+apply plugin: 'com.google.gms.google-services' // ADDED: Apply Google Services plugin for Firebase
 
 android {
-    namespace "com.myeduapp" // Your app's package name
+    namespace "com.myeduapp" // Your app's package name (ensure this matches your project)
     compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
@@ -12,6 +14,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // If you need multi-dex support for a large number of methods (e.g., many libraries)
+        // multiDexEnabled true
     }
 
     buildTypes {
@@ -26,34 +30,45 @@ android {
         }
     }
 
+    // ADDED: Packaging options for React Native and Firebase
     packagingOptions {
         pickFirst 'lib/x86/libc++_shared.so'
         pickFirst 'lib/x86_64/libc++_shared.so'
         pickFirst 'lib/armeabi-v7a/libc++_shared.so'
         pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        // For Firebase, sometimes duplicate files can cause issues
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/NOTICE.md'
     }
 }
 
 dependencies {
-    // Import all the React Native dependencies from node_modules
-    implementation project(':react-native-webview') // For react-native-webview
+    // React Native core dependencies (usually already present)
+    implementation "com.facebook.react:react-native"
+    implementation "com.facebook.react:hermes-engine" // If using Hermes
+
+    // ADDED: React Native Firebase modules from node_modules
     implementation project(':react-native-firebase_app')
     implementation project(':react-native-firebase_auth')
     implementation project(':react-native-firebase_firestore')
-    // Add other Firebase modules if you used them, e.g.:
+    // Add other Firebase modules here if you used them in App.js
+    // For example, if you used Storage:
     // implementation project(':react-native-firebase_storage')
+    // For example, if you used Functions:
     // implementation project(':react-native-firebase_functions')
 
-    // Firebase SDKs
+    // ADDED: React Native Webview module
+    implementation project(':react-native-webview')
+
+    // ADDED: Firebase SDKs (using BOM for version management)
     implementation platform('com.google.firebase:firebase-bom:32.7.0') // Use a recent BOM version
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
-    // Add other Firebase SDKs if you used them, e.g.:
+    // Add other Firebase SDKs here if you used them, e.g.:
     // implementation 'com.google.firebase:firebase-storage'
     // implementation 'com.google.firebase:firebase-functions'
 
-    // React Native core dependencies
-    implementation "com.facebook.react:react-native"
-    implementation "com.facebook.react:hermes-engine" // If using Hermes
+    // ADDED: Multi-dex support if needed (uncomment if you get method count errors)
+    // implementation 'com.android.support:multidex:1.0.3' // For older AndroidX, use 'androidx.multidex:multidex:2.0.1'
 }
