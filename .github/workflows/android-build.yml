@@ -47,12 +47,6 @@ jobs:
         run: |
           cd android # Navigate into the Android project directory
           ./gradlew assembleDebug --no-daemon # Build the debug APK
-        env:
-          # Optional: If you have any secrets in your build.gradle (e.g., API keys, though not recommended for debug)
-          # ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
-          # ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          # ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          # ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4 # Action to upload the generated APK
