@@ -8,16 +8,11 @@ buildscript {
         kotlinVersion = "1.8.0" // Ensure this is 1.8.0 or newer
     }
     repositories {
-        // CRITICAL: Place this at the very top for buildscript dependencies
-        maven {
-            url("$rootDir/../node_modules/react-native/android")
-        }
         google()
         mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.1.0") // Your existing Android Gradle Plugin version
-        // REMOVED: classpath("com.facebook.react:react-native-gradle-plugin:0.80.1") - This line is now GONE
         classpath("com.google.gms:google-services:4.4.1") // For Firebase
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}") // For Kotlin support
     }
@@ -35,6 +30,6 @@ allprojects {
     }
 }
 
-// ADDED THIS LINE AT THE VERY END OF THE FILE
-// This directly applies the React Native build logic.
-apply from: file("../node_modules/react-native/react.gradle")
+// DO NOT add 'apply plugin: "com.facebook.react.rootproject"' here.
+// DO NOT add 'apply from: file("../node_modules/react-native/react.gradle")' here.
+// These are handled by other Gradle files or are deprecated.
