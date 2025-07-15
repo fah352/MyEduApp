@@ -8,12 +8,12 @@ buildscript {
         kotlinVersion = "1.8.0" // Ensure this is 1.8.0 or newer
     }
     repositories {
-        google()
-        mavenCentral()
-        // ADDED: This is crucial for react-native-gradle-plugin if it's not on MavenCentral
+        // CRITICAL: Place this at the very top for buildscript dependencies
         maven {
             url("$rootDir/../node_modules/react-native/android")
         }
+        google()
+        mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.1.0") // Your existing Android Gradle Plugin version
@@ -25,7 +25,7 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral() // Ensure mavenCentral() is here
+        mavenCentral() // Keep this here for general dependencies
         maven {
             // All of React Native (JS, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
