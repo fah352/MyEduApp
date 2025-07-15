@@ -5,30 +5,31 @@ buildscript {
         minSdkVersion = 21
         compileSdkVersion = 34
         targetSdkVersion = 34
-        kotlinVersion = "1.8.0" // Updated Kotlin version
+        kotlinVersion = "1.8.0" // Ensure this is 1.8.0 or newer
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0") // Your existing version
+        classpath("com.android.tools.build:gradle:8.1.0") // Your existing Android Gradle Plugin version
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("com.google.gms:google-services:4.4.1") // ADDED for Firebase
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}") // ADDED for Kotlin support
+        classpath("com.google.gms:google-services:4.4.1") // For Firebase
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}") // For Kotlin support
     }
 }
 
-allprojects { // ADDED this entire block
+allprojects {
     repositories {
         mavenCentral()
         maven {
             // All of React Native (JS, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
         }
-        maven { url 'https://www.jitpack.io' } // ADDED for react-native-webview
+        maven { url 'https://www.jitpack.io' } // For react-native-webview
         google() // Ensure this is present and above mavenCentral() for Firebase
     }
 }
 
-// REMOVE or COMMENT OUT this line: apply plugin: "com.facebook.react.rootproject"
+// DO NOT add 'apply plugin: "com.facebook.react.rootproject"' here.
+// It should NOT be in this file for modern React Native.
