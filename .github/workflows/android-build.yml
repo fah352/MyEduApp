@@ -1,0 +1,61 @@
+# .github/workflows/android-build.yml
+
+name: Android CI
+
+on:
+  push:
+    branches:
+      - main # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - main # Trigger on pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu Linux runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4 # Action to checkout your repository code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use a stable LTS Node.js version
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # Recommended distribution
+          java-version: '17' # Android requires JDK 11 or 17 for recent versions
+
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm # Cache npm modules to speed up builds
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install npm dependencies
+        run: npm install # Install project dependencies from package.json
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew # Make the Gradle wrapper executable
+
+      - name: Build Android Debug APK
+        run: |
+          cd android # Navigate into the Android project directory
+          ./gradlew assembleDebug --no-daemon # Build the debug APK
+        env:
+          # Optional: If you have any secrets in your build.gradle (e.g., API keys, though not recommended for debug)
+          # ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+          # ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          # ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          # ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4 # Action to upload the generated APK
+        with:
+          name: app-debug-apk # Name of the artifact
+          path: android/app/build/outputs/apk/debug/app-debug.apk # Path to the generated APK
